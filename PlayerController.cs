@@ -6,15 +6,15 @@ public class PlayerController : MonoBehaviour {
 
     public float walkSpeed = 1.0f;
 
-	Animator anim;                      // Reference to the animator component.
-	int groundMask;                      // A layer mask so that a ray can be cast just at gameobjects on the floor layer.
-	float camRayLength = 100f;          // The length of the ray from the camera into the scene.
+	Animator g_anim;                      // Reference to the animator component.
+	int g_groundMask;                      // A layer mask so that a ray can be cast just at gameobjects on the floor layer.
+	float g_camRayLength = 100f;          // The length of the ray from the camera into the scene.
 
 
 
     void Start () {
 		// Create a layer mask for the floor layer.
-		groundMask = LayerMask.GetMask ("Ground");
+		g_groundMask = LayerMask.GetMask ("Ground");
 
 		// Set up references.
 		//anim = GetComponent <Animator> ();
@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour {
 		RaycastHit floorHit;
 
 		// Perform the raycast and if it hits something on the floor layer...
-		if(Physics.Raycast (camRay, out floorHit, camRayLength, groundMask))
+		if(Physics.Raycast (camRay, out floorHit, g_camRayLength, g_groundMask))
 		{
 			transform.LookAt (new Vector3(floorHit.point.x, transform.position.y, floorHit.point.z));
 		}
@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour {
 		bool walking = p_h != 0f || p_v != 0f;
 
 		// Tell the animator whether or not the player is walking.
-		anim.SetBool ("IsWalking", walking);
+		g_anim.SetBool ("IsWalking", walking);
 	}
 
 
