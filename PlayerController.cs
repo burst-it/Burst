@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-    public float walkSpeed = 1.0f;
+    public float g_walkSpeed = 1.0f;
 
 	Animator g_anim;                      // Reference to the animator component.
 	int g_groundMask;                      // A layer mask so that a ray can be cast just at gameobjects on the floor layer.
 	float g_camRayLength = 100f;          // The length of the ray from the camera into the scene.
 
+
+	public int g_maxHealth;
+	public int g_health;
+
+	public bool g_isDead;
 
 
     void Start () {
@@ -18,7 +23,9 @@ public class PlayerController : MonoBehaviour {
 
 		// Set up references.
 		//anim = GetComponent <Animator> ();
-		
+
+		g_health = g_maxHealth;
+		g_isDead = false;
 	}
 
 
@@ -29,11 +36,14 @@ public class PlayerController : MonoBehaviour {
 		float h = Input.GetAxisRaw ("Horizontal");
 		float v = Input.GetAxisRaw ("Vertical");
 
-		// Move the player around the scene.
-		Move (h, v);
 
-		// Turn the player to face the mouse cursor.
-		Turning ();
+		if (!g_isDead) {
+			// Move the player around the scene.
+			Move (h, v);
+
+			// Turn the player to face the mouse cursor.
+			Turning ();
+		}
     }
 
 
@@ -45,11 +55,11 @@ public class PlayerController : MonoBehaviour {
 
 	void Move (float p_h, float p_v)
 	{
-		var x = p_h * walkSpeed;
-		var z = p_v * walkSpeed;
+		var x = p_h * g_walkSpeed;
+		var z = p_v * g_walkSpeed;
 
 		var move = new Vector3(x, 0f, z);
-		transform.position += Vector3.ClampMagnitude(move, walkSpeed) * Time.deltaTime;
+		transform.position += Vector3.ClampMagnitude(move, g_walkSpeed) * Time.deltaTime;
 	}
 
 
@@ -80,5 +90,14 @@ public class PlayerController : MonoBehaviour {
 		g_anim.SetBool ("IsWalking", walking);
 	}
 
+
+
+	public void getHit(int p_damage){
+		g_health -= p_damage;
+		if(g_health<=0){
+			g_health = 0;
+			g_isDead = true;
+		}
+	}
 
 }
