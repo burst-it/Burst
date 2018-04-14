@@ -11,7 +11,12 @@ public class EnemyController : MonoBehaviour {
 	public int g_maxHealth;
 	public int g_health;
 
-	public bool isDead;
+	public bool g_isDead;
+
+	public float g_attackRange;
+	public int g_attackDamage;
+	public float g_timeBetweenAttacks = 0.15f;        // The time between each shot.
+	float g_timer;                                    // A timer to determine when to fire.
 
 
 	// Use this for initialization
@@ -20,15 +25,27 @@ public class EnemyController : MonoBehaviour {
 		g_target = GameObject.FindGameObjectWithTag ("Player");
 
 		g_health = g_maxHealth;
+		g_isDead = false;
 	}
 
 
 
 	// Update is called once per frame
 	void Update () {
-		if (!isDead) {
+		g_timer += Time.deltaTime;
+
+		if (!g_isDead) {
 			g_agent.SetDestination (g_target.transform.position);
+			if (g_agent.remainingDistance < g_attackRange) {
+				g_agent.isStopped = true;
+				if(g_timer >= g_timeBetweenAttacks){
+					Attack ();
+				}
+			} else {
+				g_agent.isStopped = false;
+			}
 		} else {
+			this.enabled = false;
 			GameObject.Destroy (this.gameObject);
 		}
 	}
@@ -44,9 +61,21 @@ public class EnemyController : MonoBehaviour {
 		g_health -= p_damage;
 		if(g_health<=0){
 			g_health = 0;
-			isDead = true;
+			g_isDead = true;
 		}
 	}
+
+
+
+	void Attack(){
+		g_timer = 0f;
+		PlayerController playerCtrl = g_target.GetComponent <PlayerController> ();
+		if(playerCtrl != null)
+		{
+			playerCtrl.getHit (g_attackDamage);
+		}
+	}
+
 
 
 }
