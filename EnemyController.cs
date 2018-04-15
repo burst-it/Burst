@@ -35,14 +35,20 @@ public class EnemyController : MonoBehaviour {
 		g_timer += Time.deltaTime;
 
 		if (!g_isDead) {
-			g_agent.SetDestination (g_target.transform.position);
-			if (g_agent.remainingDistance < g_attackRange) {
-				g_agent.isStopped = true;
-				if(g_timer >= g_timeBetweenAttacks){
-					Attack ();
+			if (g_target != null) {
+				g_agent.SetDestination (g_target.transform.position);
+				if (!g_agent.pathPending) {
+					if (g_agent.remainingDistance < g_attackRange) {
+						g_agent.isStopped = true;
+						if (g_timer >= g_timeBetweenAttacks) {
+							Attack ();
+						}
+					} else {
+						g_agent.isStopped = false;
+					}
 				}
 			} else {
-				g_agent.isStopped = false;
+				g_target = GameObject.FindGameObjectWithTag ("Player");
 			}
 		} else {
 			this.enabled = false;
