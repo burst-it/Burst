@@ -8,13 +8,13 @@ public class EnemyController : MonoBehaviour {
 	NavMeshAgent g_agent;
 	GameObject g_target;
 
-	public int g_maxHealth;
-	public int g_health;
+	public float g_maxHealth;
+	public float g_health;
 
 	public bool g_isDead;
 
 	public float g_attackRange;
-	public int g_attackDamage;
+	public float g_attackDamage;
 	public float g_timeBetweenAttacks = 0.15f;        // The time between each shot.
 	float g_timer;                                    // A timer to determine when to fire.
 
@@ -63,10 +63,10 @@ public class EnemyController : MonoBehaviour {
 
 
 
-	public void getHit(int p_damage){
+	public void getHit(float p_damage){
 		g_health -= p_damage;
-		if(g_health<=0){
-			g_health = 0;
+		if(g_health<=0f){
+			g_health = 0f;
 			g_isDead = true;
 		}
 	}
