@@ -104,7 +104,8 @@ public class PlayerController : MonoBehaviour {
 			g_isDead = true;
 		}
         life_bar.transform.Find("Text").GetComponent<Text>().text = g_health.ToString();
-        life_bar.transform.Find("Life").GetComponent<RectTransform>().anchorMax = new Vector2(0.5f, 1); //g_health / g_maxHealth
+        var lostHealth = g_maxHealth - g_health;
+        life_bar.transform.Find("Life").GetComponent<RectTransform>().anchorMax = new Vector2(g_health / g_maxHealth, 1);
     }
 
 }
