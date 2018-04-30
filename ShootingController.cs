@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ShootingController : MonoBehaviour {
 
-	public int g_damagePerShot = 20;                  // The damage inflicted by each bullet.
+	public float g_damagePerShot = 20;                  // The damage inflicted by each bullet.
 	public float g_timeBetweenBullets = 0.15f;        // The time between each shot.
 	public float g_range = 1f;                      // The distance the gun can fire.
 

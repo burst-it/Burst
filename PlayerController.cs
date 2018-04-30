@@ -13,8 +13,8 @@ public class PlayerController : MonoBehaviour {
 	float g_camRayLength = 100f;          // The length of the ray from the camera into the scene.
 
 
-	public int g_maxHealth;
-	public int g_health;
+	public float g_maxHealth;
+	public float g_health;
 
 	public bool g_isDead;
 
@@ -97,10 +97,10 @@ public class PlayerController : MonoBehaviour {
 
 
 
-	public void getHit(int p_damage){
+	public void getHit(float p_damage){
 		g_health -= p_damage;
-		if(g_health<=0){
-			g_health = 0;
+		if(g_health<=0f){
+			g_health = 0f;
 			g_isDead = true;
 		}
         life_bar.transform.Find("Text").GetComponent<Text>().text = g_health.ToString();
