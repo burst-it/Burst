@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 
     public float g_walkSpeed = 1.0f;
+    public GameObject life_bar;
 
 	Animator g_anim;                      // Reference to the animator component.
 	int g_groundMask;                      // A layer mask so that a ray can be cast just at gameobjects on the floor layer.
@@ -25,7 +27,10 @@ public class PlayerController : MonoBehaviour {
 		//anim = GetComponent <Animator> ();
 
 		g_health = g_maxHealth;
-		g_isDead = false;
+        life_bar.transform.Find("Text").GetComponent<Text>().text = g_health.ToString();
+        life_bar.transform.Find("Life").GetComponent<RectTransform>().anchorMax = new Vector2(1, 1);
+
+        g_isDead = false;
 	}
 
 
@@ -98,6 +103,8 @@ public class PlayerController : MonoBehaviour {
 			g_health = 0;
 			g_isDead = true;
 		}
-	}
+        life_bar.transform.Find("Text").GetComponent<Text>().text = g_health.ToString();
+        life_bar.transform.Find("Life").GetComponent<RectTransform>().anchorMax = new Vector2(0.5f, 1); //g_health / g_maxHealth
+    }
 
 }
