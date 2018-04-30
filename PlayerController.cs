@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour {
 
 	public bool g_isDead;
 
+    private bool isPaused = false;
+
 
     void Start () {
 		// Create a layer mask for the floor layer.
@@ -49,6 +51,14 @@ public class PlayerController : MonoBehaviour {
 			// Turn the player to face the mouse cursor.
 			Turning ();
 		}
+
+        //Echap = menu
+        if (Input.GetKeyDown(KeyCode.Escape))
+            isPaused = !isPaused;
+        if (isPaused)
+            Time.timeScale = 0f;
+        else
+            Time.timeScale = 1.0f;
     }
 
 
