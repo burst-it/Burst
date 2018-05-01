@@ -21,7 +21,7 @@ public class ShootingController : MonoBehaviour {
 	void Start ()
 	{
 		// Create a layer mask for the Shootable layer.
-		g_shootableMask = LayerMask.GetMask ("Shootable");
+		g_shootableMask = LayerMask.GetMask ("Default");
 
 		// Set up the references.
 		g_gunParticles = GetComponent<ParticleSystem> ();
@@ -87,7 +87,7 @@ public class ShootingController : MonoBehaviour {
 		g_shootRay.direction = transform.forward;
 
 		// Perform the raycast against gameobjects on the shootable layer and if it hits something...
-		if(Physics.Raycast (g_shootRay, out g_shootHit, g_range))
+		if(Physics.Raycast (g_shootRay, out g_shootHit, g_range, g_shootableMask))
 		{
 			// Try and find an EnemyHealth script on the gameobject hit.
 			EnemyController enemyHealth = g_shootHit.collider.GetComponent <EnemyController> ();
