@@ -7,9 +7,9 @@ public class CameraFollow : MonoBehaviour {
 	// The target we are following
 	public Transform g_target;
 	// The distance in the x-z plane to the target
-	public float g_distance = 10.0f;
+	public float g_distance = 2.0f;
 	// the height we want the camera to be above the target
-	public float g_height = 5.0f;
+	public float g_height = 3.0f;
 	// How much we 
 	public float g_heightDamping = 2.0f;
 
