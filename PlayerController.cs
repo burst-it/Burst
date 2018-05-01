@@ -118,4 +118,14 @@ public class PlayerController : MonoBehaviour {
         life_bar.transform.Find("Life").GetComponent<RectTransform>().anchorMax = new Vector2(g_health / g_maxHealth, 1);
     }
 
+
+
+	public void getHeal(float p_heal){
+		g_health += p_heal;
+		if(g_health>g_maxHealth){
+			g_health = g_maxHealth;
+		}
+		life_bar.transform.Find("Text").GetComponent<Text>().text = g_health.ToString();
+		life_bar.transform.Find("Life").GetComponent<RectTransform>().anchorMax = new Vector2(g_health / g_maxHealth, 1);
+	}
 }
