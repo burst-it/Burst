@@ -16,7 +16,9 @@ public class EnemyController : MonoBehaviour {
 	public float g_attackRange;
 	public float g_attackDamage;
 	public float g_timeBetweenAttacks = 1f;        // The time between each shot.
-	float g_timer;                                    // A timer to determine when to fire.
+	float g_timer;                                 // A timer to determine when to fire.
+
+	public int g_scoreProvided;
 
 
 	// Use this for initialization

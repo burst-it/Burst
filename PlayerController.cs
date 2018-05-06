@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 
+	GameObject g_shootingScriptObject;
+
     public float g_walkSpeed = 1.0f;
     public GameObject life_bar;
 
@@ -18,10 +20,15 @@ public class PlayerController : MonoBehaviour {
 
 	public bool g_isDead;
 
-    private bool isPaused = false;
+	public int g_scorePoints;
+	LootBoxScript g_selectLootBox;
+	bool g_isLootBoxSelected; 
 
 
     void Start () {
+
+		g_shootingScriptObject = transform.Find ("GunBarrelEnd").gameObject;
+
 		// Create a layer mask for the floor layer.
 		g_groundMask = LayerMask.GetMask ("Ground");
 
@@ -33,6 +40,10 @@ public class PlayerController : MonoBehaviour {
         life_bar.transform.Find("Life").GetComponent<RectTransform>().anchorMax = new Vector2(1, 1);
 
         g_isDead = false;
+
+		g_scorePoints = 0;
+		g_isLootBoxSelected = false;
+		g_selectLootBox = null;
 	}
 
 
@@ -45,20 +56,23 @@ public class PlayerController : MonoBehaviour {
 
 
 		if (!g_isDead) {
+
+			if (g_isLootBoxSelected) {
+				if(g_scorePoints>=g_selectLootBox.g_lootPrice){
+					if(Input.GetKeyDown(KeyCode.E)){
+						g_scorePoints -= g_selectLootBox.g_lootPrice;
+						g_shootingScriptObject.GetComponent<ShootingController> ().g_damagePerShot = g_selectLootBox.g_damagePerShot;
+						g_shootingScriptObject.GetComponent<ShootingController> ().g_timeBetweenBullets=g_selectLootBox.g_timeBetweenBullets;
+					}
+				}
+			}
+
 			// Move the player around the scene.
 			Move (h, v);
 
 			// Turn the player to face the mouse cursor.
 			Turning ();
 		}
-
-        //Echap = menu
-        if (Input.GetKeyDown(KeyCode.Escape))
-            isPaused = !isPaused;
-        if (isPaused)
-            Time.timeScale = 0f;
-        else
-            Time.timeScale = 1.0f;
     }
 
 
@@ -128,4 +142,17 @@ public class PlayerController : MonoBehaviour {
 		life_bar.transform.Find("Text").GetComponent<Text>().text = g_health.ToString();
 		life_bar.transform.Find("Life").GetComponent<RectTransform>().anchorMax = new Vector2(g_health / g_maxHealth, 1);
 	}
+
+
+
+	public void setSelectedLootBox(GameObject p_lootBox){
+		g_isLootBoxSelected = true;
+		g_selectLootBox = p_lootBox.GetComponent<LootBoxScript> ();
+	}
+
+	public void resetSelectedLootBox(){
+		g_isLootBoxSelected = false;
+		g_selectLootBox = null;
+	}
+
 }

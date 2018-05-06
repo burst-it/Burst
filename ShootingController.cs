@@ -18,6 +18,8 @@ public class ShootingController : MonoBehaviour {
 	Light g_gunLight;                                 // Reference to the light component.
 	float g_effectsDisplayTime = 0.2f;                // The proportion of the timeBetweenBullets that the effects will display for.
 
+	PlayerController g_playerScript;
+
 	void Start ()
 	{
 		// Create a layer mask for the Shootable layer.
@@ -28,6 +30,8 @@ public class ShootingController : MonoBehaviour {
 		g_gunLine = GetComponent <LineRenderer> ();
 		g_gunAudio = GetComponent<AudioSource> ();
 		g_gunLight = GetComponent<Light> ();
+
+		g_playerScript = transform.parent.gameObject.GetComponent<PlayerController>();
 	}
 
 	void Update ()
@@ -97,6 +101,9 @@ public class ShootingController : MonoBehaviour {
 			{
 				// ... the enemy should take damage.
 				enemyHealth.getHit (g_damagePerShot);
+				if(enemyHealth.g_isDead){
+					g_playerScript.g_scorePoints += enemyHealth.g_scoreProvided;
+				}
 			}
 
 			// Set the second position of the line renderer to the point the raycast hit.
