@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour {
 
 	GameObject g_shootingScriptObject;
 
+    public Animator animator;
+
     public float g_walkSpeed = 1.0f;
     public GameObject life_bar;
 
@@ -29,8 +31,8 @@ public class PlayerController : MonoBehaviour {
 
 		g_shootingScriptObject = transform.Find ("GunBarrelEnd").gameObject;
 
-		// Create a layer mask for the floor layer.
-		g_groundMask = LayerMask.GetMask ("Ground");
+        // Create a layer mask for the floor layer.
+        g_groundMask = LayerMask.GetMask ("Ground");
 
 		// Set up references.
 		//anim = GetComponent <Animator> ();
@@ -44,7 +46,7 @@ public class PlayerController : MonoBehaviour {
 		g_scorePoints = 0;
 		g_isLootBoxSelected = false;
 		g_selectLootBox = null;
-	}
+    }
 
 
 
@@ -53,6 +55,14 @@ public class PlayerController : MonoBehaviour {
 		// Store the input axes.
 		float h = Input.GetAxisRaw ("Horizontal");
 		float v = Input.GetAxisRaw ("Vertical");
+        if (h!=0 || v!=0)
+        {
+            animator.SetBool("isRunning", true);
+        }
+        else
+        {
+            animator.SetBool("isRunning", false);
+        }
 
 
 		if (!g_isDead) {
