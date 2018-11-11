@@ -55,15 +55,20 @@ public class PlayerController : MonoBehaviour {
 		// Store the input axes.
 		float h = Input.GetAxisRaw ("Horizontal");
 		float v = Input.GetAxisRaw ("Vertical");
-        if (h!=0 || v!=0)
+
+        float velX = 0;
+        float velZ = 0;
+
+        if(h!=0 || v != 0)
         {
-            animator.SetBool("isRunning", true);
-        }
-        else
-        {
-            animator.SetBool("isRunning", false);
+            velX = (-v) * Mathf.Sin(transform.eulerAngles.y * Mathf.Deg2Rad) + h * Mathf.Cos(transform.eulerAngles.y * Mathf.Deg2Rad);
+            velZ = v * Mathf.Cos(transform.eulerAngles.y * Mathf.Deg2Rad) + h * Mathf.Sin(transform.eulerAngles.y * Mathf.Deg2Rad);
+
+            Debug.Log(Mathf.Sin(transform.eulerAngles.y * Mathf.Deg2Rad) + " | "+ Mathf.Cos(transform.eulerAngles.y * Mathf.Deg2Rad)+" | velX:" + velX + " | velZ:" + velZ + " | rot Y:" + transform.eulerAngles.y);
         }
 
+        animator.SetFloat("velX", velX);
+        animator.SetFloat("velZ", velZ);
 
 		if (!g_isDead) {
 
